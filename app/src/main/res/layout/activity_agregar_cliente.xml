@@ -10,63 +10,64 @@
         android:padding="24dp">
 
         <TextView
-            android:id="@+id/txtTitulo"
+            android:id="@+id/txtTituloAgregarCliente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Agregar Producto"
+            android:text="Agregar Cliente"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <EditText
-            android:id="@+id/etNombre"
+            android:id="@+id/etNombreCliente"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Nombre del producto"
-            app:layout_constraintTop_toBottomOf="@id/txtTitulo"
+            android:hint="Nombre"
+            app:layout_constraintTop_toBottomOf="@id/txtTituloAgregarCliente"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="24dp" />
 
         <EditText
-            android:id="@+id/etDescripcion"
+            android:id="@+id/etTelefonoCliente"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Descripción"
-            app:layout_constraintTop_toBottomOf="@id/etNombre"
+            android:hint="Teléfono"
+            android:inputType="phone"
+            app:layout_constraintTop_toBottomOf="@id/etNombreCliente"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp" />
 
         <EditText
-            android:id="@+id/etPrecio"
+            android:id="@+id/etCorreoCliente"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Precio"
-            android:inputType="numberDecimal"
-            app:layout_constraintTop_toBottomOf="@id/etDescripcion"
+            android:hint="Correo"
+            android:inputType="textEmailAddress"
+            app:layout_constraintTop_toBottomOf="@id/etTelefonoCliente"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp" />
 
         <EditText
-            android:id="@+id/etStock"
+            android:id="@+id/etNotasCliente"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Stock"
-            android:inputType="number"
-            app:layout_constraintTop_toBottomOf="@id/etPrecio"
+            android:hint="Notas"
+            app:layout_constraintTop_toBottomOf="@id/etCorreoCliente"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp" />
 
         <Button
-            android:id="@+id/btnGuardar"
+            android:id="@+id/btnGuardarCliente"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Guardar Producto"
-            app:layout_constraintTop_toBottomOf="@id/etStock"
+            android:text="Guardar Cliente"
+            app:layout_constraintTop_toBottomOf="@id/etNotasCliente"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="24dp" />

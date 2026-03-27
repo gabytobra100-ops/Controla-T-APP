@@ -12,6 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ControlaT2">
         <activity
+            android:name=".ProductosEmpleadoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AgregarClienteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AgregarVentaActivity"
+            android:exported="false" />
+        <activity
             android:name=".AgregarProductoActivity"
             android:exported="false" />
         <activity

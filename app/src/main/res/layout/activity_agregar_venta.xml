@@ -10,63 +10,63 @@
         android:padding="24dp">
 
         <TextView
-            android:id="@+id/txtTitulo"
+            android:id="@+id/txtTituloAgregarVenta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Agregar Producto"
+            android:text="Agregar Venta"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-        <EditText
-            android:id="@+id/etNombre"
+        <Spinner
+            android:id="@+id/spProductos"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Nombre del producto"
-            app:layout_constraintTop_toBottomOf="@id/txtTitulo"
+            app:layout_constraintTop_toBottomOf="@id/txtTituloAgregarVenta"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="24dp" />
 
         <EditText
-            android:id="@+id/etDescripcion"
+            android:id="@+id/etCantidadVenta"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Descripción"
-            app:layout_constraintTop_toBottomOf="@id/etNombre"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp" />
-
-        <EditText
-            android:id="@+id/etPrecio"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="Precio"
-            android:inputType="numberDecimal"
-            app:layout_constraintTop_toBottomOf="@id/etDescripcion"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp" />
-
-        <EditText
-            android:id="@+id/etStock"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="Stock"
+            android:hint="Cantidad"
             android:inputType="number"
-            app:layout_constraintTop_toBottomOf="@id/etPrecio"
+            app:layout_constraintTop_toBottomOf="@id/spProductos"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:id="@+id/txtTotalCalculado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total: $0.0"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/etCantidadVenta"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <EditText
+            android:id="@+id/etFechaVenta"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Fecha (ej. 26/03/2026)"
+            app:layout_constraintTop_toBottomOf="@id/txtTotalCalculado"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp" />
 
         <Button
-            android:id="@+id/btnGuardar"
+            android:id="@+id/btnGuardarVenta"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Guardar Producto"
-            app:layout_constraintTop_toBottomOf="@id/etStock"
+            android:text="Guardar Venta"
+            app:layout_constraintTop_toBottomOf="@id/etFechaVenta"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="24dp" />
