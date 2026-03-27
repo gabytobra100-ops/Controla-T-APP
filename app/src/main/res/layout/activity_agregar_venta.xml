@@ -2,74 +2,95 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#0D1B2A">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="24dp">
 
+        <!-- Título -->
         <TextView
             android:id="@+id/txtTituloAgregarVenta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Agregar Venta"
+            android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Spinner -->
         <Spinner
             android:id="@+id/spProductos"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#B0BEC5"
             app:layout_constraintTop_toBottomOf="@id/txtTituloAgregarVenta"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="24dp" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Cantidad -->
         <EditText
             android:id="@+id/etCantidadVenta"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="Cantidad"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#B0BEC5"
             android:inputType="number"
+            android:layout_marginTop="16dp"
+            android:padding="12dp"
+            android:backgroundTint="#B0BEC5"
             app:layout_constraintTop_toBottomOf="@id/spProductos"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Total -->
         <TextView
             android:id="@+id/txtTotalCalculado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Total: $0.0"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
+            android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@id/etCantidadVenta"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="16dp" />
+            app:layout_constraintStart_toStartOf="parent" />
 
+        <!-- Fecha -->
         <EditText
             android:id="@+id/etFechaVenta"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="Fecha (ej. 26/03/2026)"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#B0BEC5"
+            android:layout_marginTop="16dp"
+            android:padding="12dp"
+            android:backgroundTint="#B0BEC5"
             app:layout_constraintTop_toBottomOf="@id/txtTotalCalculado"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Botón -->
         <Button
             android:id="@+id/btnGuardarVenta"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:text="Guardar Venta"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#1B263B"
+            android:layout_marginTop="24dp"
             app:layout_constraintTop_toBottomOf="@id/etFechaVenta"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="24dp" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>

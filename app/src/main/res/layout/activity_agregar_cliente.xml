@@ -2,75 +2,101 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#0D1B2A">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="24dp">
 
+        <!-- TÍTULO -->
         <TextView
             android:id="@+id/txtTituloAgregarCliente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Agregar Cliente"
+            android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- NOMBRE -->
         <EditText
             android:id="@+id/etNombreCliente"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="Nombre"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#B0BEC5"
+            android:padding="12dp"
+            android:backgroundTint="#B0BEC5"
+            android:layout_marginTop="24dp"
             app:layout_constraintTop_toBottomOf="@id/txtTituloAgregarCliente"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="24dp" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- TELÉFONO -->
         <EditText
             android:id="@+id/etTelefonoCliente"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="Teléfono"
             android:inputType="phone"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#B0BEC5"
+            android:padding="12dp"
+            android:backgroundTint="#B0BEC5"
+            android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@id/etNombreCliente"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- CORREO -->
         <EditText
             android:id="@+id/etCorreoCliente"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="Correo"
             android:inputType="textEmailAddress"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#B0BEC5"
+            android:padding="12dp"
+            android:backgroundTint="#B0BEC5"
+            android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@id/etTelefonoCliente"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- NOTAS -->
         <EditText
             android:id="@+id/etNotasCliente"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="Notas"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#B0BEC5"
+            android:padding="12dp"
+            android:backgroundTint="#B0BEC5"
+            android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@id/etCorreoCliente"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- BOTÓN -->
         <Button
             android:id="@+id/btnGuardarCliente"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:text="Guardar Cliente"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#1B263B"
+            android:layout_marginTop="24dp"
             app:layout_constraintTop_toBottomOf="@id/etNotasCliente"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="24dp" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

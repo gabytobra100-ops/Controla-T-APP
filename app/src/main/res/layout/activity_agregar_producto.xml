@@ -2,74 +2,100 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#0D1B2A">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="24dp">
 
+        <!-- TÍTULO -->
         <TextView
             android:id="@+id/txtTitulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Agregar Producto"
+            android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <!-- NOMBRE -->
         <EditText
             android:id="@+id/etNombre"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="Nombre del producto"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#B0BEC5"
+            android:padding="12dp"
+            android:backgroundTint="#B0BEC5"
+            android:layout_marginTop="24dp"
             app:layout_constraintTop_toBottomOf="@id/txtTitulo"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="24dp" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- DESCRIPCIÓN -->
         <EditText
             android:id="@+id/etDescripcion"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="Descripción"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#B0BEC5"
+            android:padding="12dp"
+            android:backgroundTint="#B0BEC5"
+            android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@id/etNombre"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- PRECIO -->
         <EditText
             android:id="@+id/etPrecio"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="Precio"
             android:inputType="numberDecimal"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#B0BEC5"
+            android:padding="12dp"
+            android:backgroundTint="#B0BEC5"
+            android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@id/etDescripcion"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- STOCK -->
         <EditText
             android:id="@+id/etStock"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="Stock"
             android:inputType="number"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#B0BEC5"
+            android:padding="12dp"
+            android:backgroundTint="#B0BEC5"
+            android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@id/etPrecio"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- BOTÓN -->
         <Button
             android:id="@+id/btnGuardar"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:text="Guardar Producto"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#1B263B"
+            android:layout_marginTop="24dp"
             app:layout_constraintTop_toBottomOf="@id/etStock"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="24dp" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
