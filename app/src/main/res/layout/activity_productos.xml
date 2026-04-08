@@ -54,10 +54,10 @@
             android:id="@+id/btnModificar"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:text="Modificar"
-            android:textColor="#FFFFFF"
+            android:layout_marginStart="12dp"
             android:backgroundTint="#1B263B"
-            android:layout_marginStart="12dp"/>
+            android:text="Modificar"
+            android:textColor="#FFFFFF" />
 
     </LinearLayout>
 

@@ -47,14 +47,36 @@
             android:backgroundTint="#1B263B"
             android:layout_marginStart="12dp" />
 
+        <Button
+            android:id="@+id/btnModificarCliente"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="Modificar"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#1B263B"
+            android:layout_marginStart="12dp" />
     </LinearLayout>
+    <EditText
+        android:id="@+id/etBuscarCliente"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="Buscar cliente por nombre o telefono"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#B0BEC5"
+        android:padding="12dp"
+        android:backgroundTint="#B0BEC5"
+        android:layout_marginTop="16dp"
+
+        app:layout_constraintTop_toBottomOf="@id/layoutBotonesClientes"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerClientes"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/layoutBotonesClientes"
+        app:layout_constraintTop_toBottomOf="@id/etBuscarCliente"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

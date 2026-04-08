@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ControlaT2">
         <activity
+            android:name=".ModificarClienteActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProductosEmpleadoActivity"
             android:exported="false" />
         <activity

@@ -25,8 +25,12 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.ViewHold
         }
         return null;
     }
-
     public void limpiarSeleccion() {
+        posicionSeleccionada = -1;
+        notifyDataSetChanged();
+    }
+    public void actualizarLista(List<Cliente>nuevaLista){
+        this.listaClientes = nuevaLista;
         posicionSeleccionada = -1;
         notifyDataSetChanged();
     }

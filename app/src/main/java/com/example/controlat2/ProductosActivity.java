@@ -91,6 +91,7 @@ public class ProductosActivity extends AppCompatActivity {
             listaProductos.clear();
             listaProductos.addAll(db.productoDao().obtenerTodos());
             adapter.notifyDataSetChanged();
+            adapter.limpiarSeleccion();
         }
     }
 }
