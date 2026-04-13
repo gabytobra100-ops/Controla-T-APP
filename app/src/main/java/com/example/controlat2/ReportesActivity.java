@@ -3,25 +3,30 @@ package com.example.controlat2;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ReportesActivity extends AppCompatActivity {
 
     private TextView txtTotalProductos, txtTotalVentas, txtIngresosTotales, txtProductosSinStock;
+    private TextView txtClienteFrecuente, txtProductoMasVendido;
     private AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_reportes);
 
         txtTotalProductos = findViewById(R.id.txtTotalProductos);
         txtTotalVentas = findViewById(R.id.txtTotalVentas);
         txtIngresosTotales = findViewById(R.id.txtIngresosTotales);
         txtProductosSinStock = findViewById(R.id.txtProductosSinStock);
+        txtClienteFrecuente = findViewById(R.id.txtClienteFrecuente);
+        txtProductoMasVendido = findViewById(R.id.txtProductoMasVendido);
 
         db = Room.databaseBuilder(getApplicationContext(),
                         AppDatabase.class, "controlat-db")
@@ -39,18 +44,69 @@ public class ReportesActivity extends AppCompatActivity {
     }
 
     private void cargarReportes() {
-        int totalProductos = db.productoDao().contarProductos();
-        int totalVentas = db.ventaDao().contarVentas();
-        int productosSinStock = db.productoDao().contarProductosSinStock();
+        List<Producto> productos = db.productoDao().obtenerTodos();
+        List<Venta> ventas = db.ventaDao().obtenerTodas();
 
-        Double ingresos = db.ventaDao().obtenerIngresosTotales();
-        if (ingresos == null) {
-            ingresos = 0.0;
+        int totalProductos = productos.size();
+        int totalVentas = ventas.size();
+
+        double ingresos = 0;
+        int sinStock = 0;
+
+        Map<String, Integer> comprasPorCliente = new HashMap<>();
+        Map<String, Integer> ventasPorProducto = new HashMap<>();
+
+        for (Venta venta : ventas) {
+            ingresos += venta.getTotal();
+
+            String nombreCliente = venta.getNombreCliente();
+            if (nombreCliente == null || nombreCliente.trim().isEmpty()) {
+                nombreCliente = "Público general";
+            }
+
+            comprasPorCliente.put(
+                    nombreCliente,
+                    comprasPorCliente.getOrDefault(nombreCliente, 0) + 1
+            );
+
+            String nombreProducto = venta.getNombreProducto();
+            ventasPorProducto.put(
+                    nombreProducto,
+                    ventasPorProducto.getOrDefault(nombreProducto, 0) + venta.getCantidad()
+            );
+        }
+
+        for (Producto producto : productos) {
+            if (producto.getStock() == 0) {
+                sinStock++;
+            }
+        }
+
+        String clienteFrecuente = "Sin datos";
+        int maxCompras = 0;
+
+        for (Map.Entry<String, Integer> entry : comprasPorCliente.entrySet()) {
+            if (entry.getValue() > maxCompras) {
+                maxCompras = entry.getValue();
+                clienteFrecuente = entry.getKey() + " (" + entry.getValue() + " compras)";
+            }
+        }
+
+        String productoMasVendido = "Sin datos";
+        int maxVentas = 0;
+
+        for (Map.Entry<String, Integer> entry : ventasPorProducto.entrySet()) {
+            if (entry.getValue() > maxVentas) {
+                maxVentas = entry.getValue();
+                productoMasVendido = entry.getKey() + " (" + entry.getValue() + " unidades)";
+            }
         }
 
         txtTotalProductos.setText("Total de productos: " + totalProductos);
         txtTotalVentas.setText("Total de ventas: " + totalVentas);
-        txtIngresosTotales.setText("Ingresos totales: $" + ingresos);
-        txtProductosSinStock.setText("Productos sin stock: " + productosSinStock);
+        txtIngresosTotales.setText("Ingresos totales: $" + String.format("%.2f", ingresos));
+        txtProductosSinStock.setText("Productos sin stock: " + sinStock);
+        txtClienteFrecuente.setText("Cliente frecuente: " + clienteFrecuente);
+        txtProductoMasVendido.setText("Producto más vendido: " + productoMasVendido);
     }
 }

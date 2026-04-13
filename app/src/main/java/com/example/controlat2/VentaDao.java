@@ -21,6 +21,9 @@ public interface VentaDao {
     @Query("SELECT SUM (total) FROM ventas")
     double obtenerIngresosTotales();
 
+    @Query("SELECT * FROM ventas WHERE clienteId = :clienteId")
+    List<Venta> obtenerVentasPorCliente(int clienteId);
+
     @Update
     void actualizar(Venta venta);
 

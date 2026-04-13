@@ -9,12 +9,16 @@ public class Venta {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
+    private int clienteId;
+    private String nombreCliente;
     private String nombreProducto;
     private int cantidad;
     private double total;
     private String fecha;
 
-    public Venta(String nombreProducto, int cantidad, double total, String fecha) {
+    public Venta(int clienteId, String nombreCliente, String nombreProducto, int cantidad, double total, String fecha) {
+        this.clienteId = clienteId;
+        this.nombreCliente = nombreCliente;
         this.nombreProducto = nombreProducto;
         this.cantidad = cantidad;
         this.total = total;
@@ -27,6 +31,14 @@ public class Venta {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getClienteId() {
+        return clienteId;
+    }
+
+    public String getNombreCliente() {
+        return nombreCliente;
     }
 
     public String getNombreProducto() {

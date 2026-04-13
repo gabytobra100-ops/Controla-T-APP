@@ -36,6 +36,10 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
         posicionSeleccionada = -1;
         notifyDataSetChanged();
     }
+    public void actualizarLista(List<Producto> nuevaLista) {
+        this.listaProductos = nuevaLista;
+        posicionSeleccionada=-1;
+        notifyDataSetChanged();}
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -51,6 +55,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
             id = itemView.findViewById(R.id.txtIdProducto);
         }
     }
+
 
     @NonNull
     @Override

@@ -3,6 +3,7 @@ package com.example.controlat2;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.content.Intent;
 
@@ -20,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        Button Administrador = findViewById(R.id.btnAdministrador);
-        Button Personal = findViewById(R.id.btnPersonal);
+        LinearLayout Administrador = findViewById(R.id.btnAdministrador);
+        LinearLayout Personal = findViewById(R.id.btnPersonal);
 
 
         Administrador.setOnClickListener(new View.OnClickListener() {

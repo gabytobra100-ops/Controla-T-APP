@@ -3,16 +3,23 @@ package com.example.controlat2;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
-
+import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class ProductosActivity extends AppCompatActivity {
+    private List<Producto>
+            listaProductosCompleta;
+    private EditText etBuscarProducto;
 
     private RecyclerView recyclerProductos;
     private List<Producto> listaProductos;
@@ -25,6 +32,7 @@ public class ProductosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_productos);
+        etBuscarProducto=findViewById(R.id.etBuscarProducto);
 
         btnAgregar = findViewById(R.id.btnAgregar);
         btnEliminar = findViewById(R.id.btnEliminar);
@@ -49,6 +57,22 @@ public class ProductosActivity extends AppCompatActivity {
 
             listaProductos = db.productoDao().obtenerTodos();
         }
+        etBuscarProducto.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filtrarProductos(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        listaProductosCompleta = new ArrayList<>(listaProductos);
 
         adapter = new ProductoAdapter(listaProductos, db);
         recyclerProductos.setAdapter(adapter);
@@ -87,11 +111,22 @@ public class ProductosActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if (listaProductos != null && db != null && adapter != null) {
-            listaProductos.clear();
-            listaProductos.addAll(db.productoDao().obtenerTodos());
-            adapter.notifyDataSetChanged();
+        if (db != null && adapter != null) {
+            listaProductos= db.productoDao().obtenerTodos();
+            listaProductosCompleta=new ArrayList<>(listaProductos);
+            adapter.actualizarLista(listaProductos);
             adapter.limpiarSeleccion();
         }
+    }
+    private void filtrarProductos(String texto) {
+        List<Producto> listaFiltrada = new ArrayList<>();
+
+        for (Producto producto : listaProductosCompleta) {
+            if (producto.getNombre().toLowerCase().contains(texto.toLowerCase())) {
+                listaFiltrada.add(producto);
+            }
+        }
+
+        adapter.actualizarLista(listaFiltrada);
     }
 }

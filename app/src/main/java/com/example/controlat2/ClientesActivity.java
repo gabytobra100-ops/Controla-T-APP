@@ -24,6 +24,7 @@ public class ClientesActivity extends AppCompatActivity {
     private AppDatabase db;
     private Button btnAgregarCliente, btnEliminarCliente, btnModificarCliente;
     private EditText etBuscarCliente;
+    private Button btnVerHistorial;
 
 
     @Override
@@ -37,6 +38,7 @@ public class ClientesActivity extends AppCompatActivity {
         btnModificarCliente = findViewById(R.id.btnModificarCliente);
         recyclerClientes = findViewById(R.id.recyclerClientes);
         etBuscarCliente = findViewById(R.id.etBuscarCliente);
+        btnVerHistorial = findViewById(R.id.btnVerHistorial);
 
         recyclerClientes.setLayoutManager(new LinearLayoutManager(this));
 
@@ -98,6 +100,17 @@ public class ClientesActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnVerHistorial.setOnClickListener(v -> {
+            Cliente clienteSeleccionado = adapter.getClienteSeleccionado();
+
+            if (clienteSeleccionado != null) {
+                Intent intent = new Intent(ClientesActivity.this, VentasClienteActivity.class);
+                intent.putExtra("nombreCliente", clienteSeleccionado.getNombre());
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
