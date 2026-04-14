@@ -2,6 +2,7 @@ package com.example.controlat2;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,6 +36,7 @@ public class VentasClienteActivity extends AppCompatActivity {
                 .build();
 
         int clienteId = getIntent().getIntExtra("clienteId", -1);
+        Toast.makeText(this, "Cliente ID" + clienteId,Toast.LENGTH_SHORT).show();
         String nombreCliente = getIntent().getStringExtra("nombreCliente");
 
         if (nombreCliente != null && !nombreCliente.isEmpty()) {
@@ -45,5 +47,6 @@ public class VentasClienteActivity extends AppCompatActivity {
 
         adapter = new VentaAdapter(listaVentas);
         recyclerVentas.setAdapter(adapter);
+
     }
 }

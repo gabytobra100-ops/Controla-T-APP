@@ -106,7 +106,9 @@ public class ClientesActivity extends AppCompatActivity {
 
             if (clienteSeleccionado != null) {
                 Intent intent = new Intent(ClientesActivity.this, VentasClienteActivity.class);
+                intent.putExtra("clienteId", clienteSeleccionado.getId());
                 intent.putExtra("nombreCliente", clienteSeleccionado.getNombre());
+
                 startActivity(intent);
             }
         });
