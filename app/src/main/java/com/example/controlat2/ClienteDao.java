@@ -18,6 +18,8 @@ public interface ClienteDao {
 
     @Query("SELECT * FROM clientes")
     List<Cliente> obtenerTodos();
+    @Query(" SELECT * FROM clientes WHERE nombre = :nombre LIMIT 1")
+    Cliente obtenerPorNombre(String nombre);
 
     @Delete
     void eliminar(Cliente cliente);

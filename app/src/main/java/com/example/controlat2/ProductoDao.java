@@ -26,6 +26,9 @@ public interface ProductoDao {
     @Query("SELECT COUNT(*) FROM productos WHERE stock = 0")
     int contarProductosSinStock();
 
+    @Query("SELECT * FROM productos WHERE nombre = :nombre LIMIT 1")
+    Producto obtenerPorNombre (String nombre);
+
     @Update
     void actualizar(Producto producto);
 

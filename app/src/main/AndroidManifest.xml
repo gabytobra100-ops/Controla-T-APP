@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ControlaT2">
         <activity
+            android:name=".PedidosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AgregarPedidoActivity"
+            android:exported="false" />
+        <activity
             android:name=".VentasClienteActivity"
             android:exported="false" />
         <activity

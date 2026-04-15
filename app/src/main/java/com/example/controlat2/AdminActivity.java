@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -60,6 +58,7 @@ public class AdminActivity extends AppCompatActivity {
         txtAlerta2 = findViewById(R.id.txtAlerta2);
         txtAlerta3 = findViewById(R.id.txtAlerta3);
 
+        // Estas vistas pueden no existir si cambiaste el XML
         barVentas = findViewById(R.id.barVentas);
         barClientes = findViewById(R.id.barClientes);
         barProductos = findViewById(R.id.barProductos);
@@ -101,7 +100,7 @@ public class AdminActivity extends AppCompatActivity {
             } else if (id == R.id.nav_ventas) {
                 startActivity(new Intent(AdminActivity.this, VentasActivity.class));
             } else if (id == R.id.nav_pedidos) {
-                Toast.makeText(this, "Módulo de pedidos próximamente", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(AdminActivity.this, PedidosActivity.class));
             } else if (id == R.id.nav_reportes) {
                 startActivity(new Intent(AdminActivity.this, ReportesActivity.class));
             } else if (id == R.id.nav_cerrar_sesion) {
@@ -144,22 +143,36 @@ public class AdminActivity extends AppCompatActivity {
             ingresos += venta.getTotal();
         }
 
-        txtDashboardProductos.setText(String.valueOf(totalProductos));
-        txtDashboardVentas.setText(String.valueOf(totalVentas));
-        txtDashboardClientes.setText(String.valueOf(totalClientes));
-        txtDashboardSinStock.setText(String.valueOf(sinStock));
-        txtDashboardIngresos.setText("$" + String.format("%.2f", ingresos));
-
-        int maxValorResumen = Math.max(totalVentas, Math.max(totalClientes, totalProductos));
-        if (maxValorResumen == 0) {
-            maxValorResumen = 1;
+        if (txtDashboardProductos != null) {
+            txtDashboardProductos.setText(String.valueOf(totalProductos));
+        }
+        if (txtDashboardVentas != null) {
+            txtDashboardVentas.setText(String.valueOf(totalVentas));
+        }
+        if (txtDashboardClientes != null) {
+            txtDashboardClientes.setText(String.valueOf(totalClientes));
+        }
+        if (txtDashboardSinStock != null) {
+            txtDashboardSinStock.setText(String.valueOf(sinStock));
+        }
+        if (txtDashboardIngresos != null) {
+            txtDashboardIngresos.setText("$" + String.format("%.2f", ingresos));
         }
 
-        txtGraficaVentasValor.setText(String.valueOf(totalVentas));
-        txtGraficaClientesValor.setText(String.valueOf(totalClientes));
-        txtGraficaProductosValor.setText(String.valueOf(totalProductos));
+        // Solo actualiza gráfica si esas vistas existen en el XML
+        if (txtGraficaVentasValor != null) {
+            txtGraficaVentasValor.setText(String.valueOf(totalVentas));
+        }
+        if (txtGraficaClientesValor != null) {
+            txtGraficaClientesValor.setText(String.valueOf(totalClientes));
+        }
+        if (txtGraficaProductosValor != null) {
+            txtGraficaProductosValor.setText(String.valueOf(totalProductos));
+        }
 
-        actualizarGraficaBarras(totalVentas, totalClientes, totalProductos);
+        if (barVentas != null && barClientes != null && barProductos != null) {
+            actualizarGraficaBarras(totalVentas, totalClientes, totalProductos);
+        }
 
         cargarTopClientes(ventas);
         cargarAlertas(productos, ventas, sinStock, stockBajo);
@@ -179,7 +192,11 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     private void ajustarAlturaBarra(View barra, int alturaDp) {
+        if (barra == null) return;
+
         ViewGroup.LayoutParams params = barra.getLayoutParams();
+        if (params == null) return;
+
         params.height = dpToPx(Math.max(alturaDp, 10));
         barra.setLayoutParams(params);
     }
@@ -208,42 +225,48 @@ public class AdminActivity extends AppCompatActivity {
         List<Map.Entry<String, Integer>> listaOrdenada = new ArrayList<>(comprasPorCliente.entrySet());
         listaOrdenada.sort((a, b) -> b.getValue().compareTo(a.getValue()));
 
-        txtTopCliente1.setText("1. Sin datos");
-        txtTopCliente2.setText("2. Sin datos");
-        txtTopCliente3.setText("3. Sin datos");
+        if (txtTopCliente1 != null) txtTopCliente1.setText("1. Sin datos");
+        if (txtTopCliente2 != null) txtTopCliente2.setText("2. Sin datos");
+        if (txtTopCliente3 != null) txtTopCliente3.setText("3. Sin datos");
 
-        if (listaOrdenada.size() > 0) {
+        if (listaOrdenada.size() > 0 && txtTopCliente1 != null) {
             txtTopCliente1.setText("1. " + listaOrdenada.get(0).getKey() + " (" + listaOrdenada.get(0).getValue() + " compras)");
         }
-        if (listaOrdenada.size() > 1) {
+        if (listaOrdenada.size() > 1 && txtTopCliente2 != null) {
             txtTopCliente2.setText("2. " + listaOrdenada.get(1).getKey() + " (" + listaOrdenada.get(1).getValue() + " compras)");
         }
-        if (listaOrdenada.size() > 2) {
+        if (listaOrdenada.size() > 2 && txtTopCliente3 != null) {
             txtTopCliente3.setText("3. " + listaOrdenada.get(2).getKey() + " (" + listaOrdenada.get(2).getValue() + " compras)");
         }
     }
 
     private void cargarAlertas(List<Producto> productos, List<Venta> ventas, int sinStock, int stockBajo) {
-        txtAlerta1.setText("• Sin alertas");
-        txtAlerta2.setText("• Sin alertas");
-        txtAlerta3.setText("• Sin alertas");
+        if (txtAlerta1 != null) txtAlerta1.setText("• Sin alertas");
+        if (txtAlerta2 != null) txtAlerta2.setText("• Sin alertas");
+        if (txtAlerta3 != null) txtAlerta3.setText("• Sin alertas");
 
-        if (sinStock > 0) {
-            txtAlerta1.setText("• Hay " + sinStock + " producto(s) sin stock");
-        } else {
-            txtAlerta1.setText("• No hay productos agotados");
+        if (txtAlerta1 != null) {
+            if (sinStock > 0) {
+                txtAlerta1.setText("• Hay " + sinStock + " producto(s) sin stock");
+            } else {
+                txtAlerta1.setText("• No hay productos agotados");
+            }
         }
 
-        if (stockBajo > 0) {
-            txtAlerta2.setText("• Hay " + stockBajo + " producto(s) con stock bajo");
-        } else {
-            txtAlerta2.setText("• El stock general está estable");
+        if (txtAlerta2 != null) {
+            if (stockBajo > 0) {
+                txtAlerta2.setText("• Hay " + stockBajo + " producto(s) con stock bajo");
+            } else {
+                txtAlerta2.setText("• El stock general está estable");
+            }
         }
 
-        if (ventas.isEmpty()) {
-            txtAlerta3.setText("• Aún no hay ventas registradas");
-        } else {
-            txtAlerta3.setText("• Se han registrado " + ventas.size() + " venta(s)");
+        if (txtAlerta3 != null) {
+            if (ventas.isEmpty()) {
+                txtAlerta3.setText("• Aún no hay ventas registradas");
+            } else {
+                txtAlerta3.setText("• Se han registrado " + ventas.size() + " venta(s)");
+            }
         }
     }
 }
