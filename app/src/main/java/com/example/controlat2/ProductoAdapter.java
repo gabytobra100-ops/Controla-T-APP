@@ -3,6 +3,7 @@ package com.example.controlat2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,18 +37,16 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
         posicionSeleccionada = -1;
         notifyDataSetChanged();
     }
-    public void actualizarLista(List<Producto> nuevaLista) {
-        this.listaProductos = nuevaLista;
-        posicionSeleccionada=-1;
-        notifyDataSetChanged();}
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        ImageView imgProducto;
         TextView nombre, descripcion, precio, stock, id;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            imgProducto = itemView.findViewById(R.id.imgProducto);
             nombre = itemView.findViewById(R.id.txtNombreProducto);
             descripcion = itemView.findViewById(R.id.txtDescripcionProducto);
             precio = itemView.findViewById(R.id.txtPrecioProducto);
@@ -56,10 +55,9 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
         }
     }
 
-
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ProductoAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_producto, parent, false);
         return new ViewHolder(view);
@@ -69,6 +67,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Producto p = listaProductos.get(position);
 
+        holder.imgProducto.setImageResource(p.getImagenResId());
         holder.nombre.setText(p.getNombre());
         holder.descripcion.setText(p.getDescripcion());
         holder.precio.setText("Precio: $" + p.getPrecio());

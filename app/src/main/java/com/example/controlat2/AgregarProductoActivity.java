@@ -16,6 +16,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
 
     private boolean modoEditar = false;
     private int idProducto = -1;
+    private int imagenResId = R.drawable.ic_launcher_foreground;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +41,9 @@ public class AgregarProductoActivity extends AppCompatActivity {
 
             String nombre = getIntent().getStringExtra("nombre");
             String descripcion = getIntent().getStringExtra("descripcion");
-            double precio = getIntent().getDoubleExtra("precio", 0);
+            double precio = getIntent().getDoubleExtra("precio", 100);
             int stock = getIntent().getIntExtra("stock", 0);
+            imagenResId = getIntent().getIntExtra("imagenResId", R.drawable.ic_launcher_foreground);
 
             etNombre.setText(nombre);
             etDescripcion.setText(descripcion);
@@ -65,19 +67,37 @@ public class AgregarProductoActivity extends AppCompatActivity {
             double precio = Double.parseDouble(precioTexto);
             int stock = Integer.parseInt(stockTexto);
 
+            imagenResId = obtenerImagenPorNombre(nombre);
+
             if (modoEditar) {
-                Producto productoActualizado = new Producto(nombre, descripcion, precio, stock);
+                Producto productoActualizado = new Producto(nombre, descripcion, precio, stock, imagenResId);
                 productoActualizado.setId(idProducto);
 
                 db.productoDao().actualizar(productoActualizado);
                 Toast.makeText(this, "Producto actualizado", Toast.LENGTH_SHORT).show();
             } else {
-                Producto productoNuevo = new Producto(nombre, descripcion, precio, stock);
+                Producto productoNuevo = new Producto(nombre, descripcion, precio, stock, imagenResId);
                 db.productoDao().insertar(productoNuevo);
                 Toast.makeText(this, "Producto guardado", Toast.LENGTH_SHORT).show();
             }
 
             finish();
         });
+    }
+
+    private int obtenerImagenPorNombre(String nombre) {
+        String nombreLower = nombre.toLowerCase();
+
+        if (nombreLower.contains("invictus")) {
+            return R.drawable.fragancias;
+        } else if (nombreLower.contains("sauvage")) {
+            return R.drawable.fragancias;
+        } else if (nombreLower.contains("212")) {
+            return R.drawable.fragancias;
+        } else if (nombreLower.contains("acqua")) {
+            return R.drawable.fragancias;
+        }
+
+        return R.drawable.ic_launcher_foreground;
     }
 }

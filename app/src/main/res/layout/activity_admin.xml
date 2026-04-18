@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <!-- CONTENIDO PRINCIPAL -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -33,7 +32,6 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
-                <!-- TÍTULO -->
                 <TextView
                     android:id="@+id/txtTituloDashboard"
                     android:layout_width="wrap_content"
@@ -53,8 +51,9 @@
                     android:layout_marginTop="6dp"
                     android:layout_marginBottom="20dp" />
 
-                <!-- CARD INGRESOS CON CÍRCULO -->
+                <!-- CARD INGRESOS -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cardIngresosDashboard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -62,11 +61,13 @@
                     app:cardBackgroundColor="#1B263B">
 
                     <LinearLayout
+                        android:id="@+id/layoutIngresosDashboard"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center_horizontal"
-                        android:padding="20dp">
+                        android:padding="20dp"
+                        android:background="?attr/selectableItemBackground">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -75,7 +76,48 @@
                             android:textColor="#B0BEC5"
                             android:textSize="14sp" />
 
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="12dp">
+
+                            <TextView
+                                android:id="@+id/btnPeriodoDiario"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Diario"
+                                android:textColor="#FFFFFF"
+                                android:textStyle="bold"
+                                android:paddingHorizontal="12dp"
+                                android:paddingVertical="6dp"
+                                android:background="@drawable/bg_periodo_activo" />
+
+                            <TextView
+                                android:id="@+id/btnPeriodoSemanal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Semanal"
+                                android:textColor="#B0BEC5"
+                                android:paddingHorizontal="12dp"
+                                android:paddingVertical="6dp"
+                                android:layout_marginStart="8dp"
+                                android:background="@drawable/bg_periodo_inactivo" />
+
+                            <TextView
+                                android:id="@+id/btnPeriodoMensual"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Mensual"
+                                android:textColor="#B0BEC5"
+                                android:paddingHorizontal="12dp"
+                                android:paddingVertical="6dp"
+                                android:layout_marginStart="8dp"
+                                android:background="@drawable/bg_periodo_inactivo" />
+                        </LinearLayout>
+
                         <FrameLayout
+                            android:id="@+id/frameCirculoIngresos"
                             android:layout_width="220dp"
                             android:layout_height="220dp"
                             android:layout_marginTop="16dp"
@@ -84,13 +126,14 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:orientation="vertical"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/txtTituloPeriodo"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Balance"
+                                    android:text="Balance mensual"
                                     android:textColor="#B0BEC5"
                                     android:textSize="14sp" />
 
@@ -98,13 +141,114 @@
                                     android:id="@+id/txtDashboardIngresos"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
                                     android:text="$0.00"
                                     android:textColor="#FFFFFF"
                                     android:textSize="30sp"
-                                    android:textStyle="bold"
-                                    android:layout_marginTop="8dp" />
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/txtPorcentajeMeta"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="6dp"
+                                    android:text="0% de la meta"
+                                    android:textColor="#B0BEC5"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:id="@+id/txtEstadoMeta"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="Sin meta definida"
+                                    android:textColor="#FFFFFF"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
                             </LinearLayout>
                         </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="20dp"
+                            android:gravity="center"
+                            android:weightSum="3">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Diario"
+                                    android:textColor="#B0BEC5"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/txtPorcentajeDiario"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0%"
+                                    android:textColor="#29B6F6"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Semanal"
+                                    android:textColor="#B0BEC5"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/txtPorcentajeSemanal"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0%"
+                                    android:textColor="#7E57C2"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Mensual"
+                                    android:textColor="#B0BEC5"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/txtPorcentajeMensual"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0%"
+                                    android:textColor="#4CAF50"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </LinearLayout>
+
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -115,6 +259,7 @@
                     android:orientation="horizontal">
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/cardClientesDashboard"
                         android:layout_width="0dp"
                         android:layout_height="110dp"
                         android:layout_weight="1"
@@ -148,6 +293,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/cardVentasDashboard"
                         android:layout_width="0dp"
                         android:layout_height="110dp"
                         android:layout_weight="1"
@@ -189,6 +335,7 @@
                     android:layout_marginTop="14dp">
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/cardProductosDashboard"
                         android:layout_width="0dp"
                         android:layout_height="110dp"
                         android:layout_weight="1"
@@ -222,6 +369,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/cardSinStockDashboard"
                         android:layout_width="0dp"
                         android:layout_height="110dp"
                         android:layout_weight="1"
@@ -293,7 +441,6 @@
                             android:gravity="bottom"
                             android:weightSum="3">
 
-                            <!-- BARRA VENTAS -->
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -332,7 +479,6 @@
                                     android:layout_marginTop="8dp" />
                             </LinearLayout>
 
-                            <!-- BARRA CLIENTES -->
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -371,7 +517,6 @@
                                     android:layout_marginTop="8dp" />
                             </LinearLayout>
 
-                            <!-- BARRA PRODUCTOS -->
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -414,8 +559,9 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- CARD TOP CLIENTES -->
+                <!-- CARD RANKING COMERCIAL -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cardRankingComercial"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
@@ -423,6 +569,7 @@
                     app:cardBackgroundColor="#1B263B">
 
                     <LinearLayout
+                        android:id="@+id/layoutRankingComercial"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -431,7 +578,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Top clientes"
+                            android:text="Ranking comercial"
                             android:textColor="#FFFFFF"
                             android:textSize="18sp"
                             android:textStyle="bold" />
@@ -439,14 +586,54 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Clientes con mayor número de compras"
+                            android:text="Consulta top clientes, fragancias o días"
                             android:textColor="#B0BEC5"
                             android:textSize="13sp"
                             android:layout_marginTop="4dp"
-                            android:layout_marginBottom="16dp" />
+                            android:layout_marginBottom="14dp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="16dp">
+
+                            <TextView
+                                android:id="@+id/btnRankingClientes"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Clientes"
+                                android:textColor="#FFFFFF"
+                                android:textStyle="bold"
+                                android:paddingHorizontal="12dp"
+                                android:paddingVertical="6dp"
+                                android:background="@drawable/bg_periodo_activo" />
+
+                            <TextView
+                                android:id="@+id/btnRankingFragancias"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Fragancias"
+                                android:textColor="#B0BEC5"
+                                android:paddingHorizontal="12dp"
+                                android:paddingVertical="6dp"
+                                android:layout_marginStart="8dp"
+                                android:background="@drawable/bg_periodo_inactivo" />
+
+                            <TextView
+                                android:id="@+id/btnRankingDias"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Días"
+                                android:textColor="#B0BEC5"
+                                android:paddingHorizontal="12dp"
+                                android:paddingVertical="6dp"
+                                android:layout_marginStart="8dp"
+                                android:background="@drawable/bg_periodo_inactivo" />
+                        </LinearLayout>
 
                         <TextView
-                            android:id="@+id/txtTopCliente1"
+                            android:id="@+id/txtRanking1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="1. Sin datos"
@@ -455,7 +642,7 @@
                             android:layout_marginBottom="10dp" />
 
                         <TextView
-                            android:id="@+id/txtTopCliente2"
+                            android:id="@+id/txtRanking2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="2. Sin datos"
@@ -464,10 +651,28 @@
                             android:layout_marginBottom="10dp" />
 
                         <TextView
-                            android:id="@+id/txtTopCliente3"
+                            android:id="@+id/txtRanking3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="3. Sin datos"
+                            android:textColor="#FFFFFF"
+                            android:textSize="15sp"
+                            android:layout_marginBottom="10dp" />
+
+                        <TextView
+                            android:id="@+id/txtRanking4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="4. Sin datos"
+                            android:textColor="#FFFFFF"
+                            android:textSize="15sp"
+                            android:layout_marginBottom="10dp" />
+
+                        <TextView
+                            android:id="@+id/txtRanking5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5. Sin datos"
                             android:textColor="#FFFFFF"
                             android:textSize="15sp" />
                     </LinearLayout>
@@ -475,6 +680,7 @@
 
                 <!-- CARD ALERTAS -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cardAlertas"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
@@ -483,10 +689,12 @@
                     app:cardBackgroundColor="#1B263B">
 
                     <LinearLayout
+                        android:id="@+id/layoutAlertas"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="18dp">
+                        android:padding="18dp"
+                        android:background="?attr/selectableItemBackground">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -499,7 +707,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Situaciones importantes que requieren atención"
+                            android:text="Recordatorios y notificaciones importantes"
                             android:textColor="#B0BEC5"
                             android:textSize="13sp"
                             android:layout_marginTop="4dp"
@@ -537,7 +745,6 @@
         </ScrollView>
     </LinearLayout>
 
-    <!-- MENÚ LATERAL -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="wrap_content"

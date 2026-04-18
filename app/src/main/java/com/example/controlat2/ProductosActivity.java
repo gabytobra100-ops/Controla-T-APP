@@ -3,23 +3,16 @@ package com.example.controlat2;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.EditText;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
-import java.util.ArrayList;
+
 import java.util.List;
 
-
-
 public class ProductosActivity extends AppCompatActivity {
-    private List<Producto>
-            listaProductosCompleta;
-    private EditText etBuscarProducto;
 
     private RecyclerView recyclerProductos;
     private List<Producto> listaProductos;
@@ -32,7 +25,6 @@ public class ProductosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_productos);
-        etBuscarProducto=findViewById(R.id.etBuscarProducto);
 
         btnAgregar = findViewById(R.id.btnAgregar);
         btnEliminar = findViewById(R.id.btnEliminar);
@@ -50,29 +42,13 @@ public class ProductosActivity extends AppCompatActivity {
         listaProductos = db.productoDao().obtenerTodos();
 
         if (listaProductos.isEmpty()) {
-            db.productoDao().insertar(new Producto("212 VIP Men Black", "Fragancia 60 ml", 100.0, 4));
-            db.productoDao().insertar(new Producto("Invictus", "Fragancia 100 ml", 150.0, 2));
-            db.productoDao().insertar(new Producto("Sauvage", "Fragancia 60 ml", 180.0, 3));
-            db.productoDao().insertar(new Producto("Acqua De Gio Men", "Fragancia 60 ml", 100.0, 0));
+            db.productoDao().insertar(new Producto("212 VIP Men Black", "Fragancia 60 ml", 100.0, 4, R.drawable.fragancias));
+            db.productoDao().insertar(new Producto("Invictus", "Fragancia 100 ml", 150.0, 2, R.drawable.fragancias));
+            db.productoDao().insertar(new Producto("Sauvage", "Fragancia 60 ml", 180.0, 3, R.drawable.fragancias));
+            db.productoDao().insertar(new Producto("Acqua De Gio Men", "Fragancia 60 ml", 100.0, 0, R.drawable.fragancias));
 
             listaProductos = db.productoDao().obtenerTodos();
         }
-        etBuscarProducto.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filtrarProductos(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
-        listaProductosCompleta = new ArrayList<>(listaProductos);
 
         adapter = new ProductoAdapter(listaProductos, db);
         recyclerProductos.setAdapter(adapter);
@@ -81,9 +57,10 @@ public class ProductosActivity extends AppCompatActivity {
             Intent intent = new Intent(ProductosActivity.this, AgregarProductoActivity.class);
             startActivity(intent);
         });
+
         btnEliminar.setOnClickListener(v -> {
-            Producto productoSeleccionado=adapter.getProductoSeleccionado();
-            if (productoSeleccionado !=null){
+            Producto productoSeleccionado = adapter.getProductoSeleccionado();
+            if (productoSeleccionado != null) {
                 db.productoDao().eliminar(productoSeleccionado);
                 listaProductos.clear();
                 listaProductos.addAll(db.productoDao().obtenerTodos());
@@ -91,6 +68,7 @@ public class ProductosActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
+
         btnModificar.setOnClickListener(v -> {
             Producto productoSeleccionado = adapter.getProductoSeleccionado();
 
@@ -102,6 +80,7 @@ public class ProductosActivity extends AppCompatActivity {
                 intent.putExtra("descripcion", productoSeleccionado.getDescripcion());
                 intent.putExtra("precio", productoSeleccionado.getPrecio());
                 intent.putExtra("stock", productoSeleccionado.getStock());
+                intent.putExtra("imagenResId", productoSeleccionado.getImagenResId());
                 startActivity(intent);
             }
         });
@@ -111,22 +90,11 @@ public class ProductosActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if (db != null && adapter != null) {
-            listaProductos= db.productoDao().obtenerTodos();
-            listaProductosCompleta=new ArrayList<>(listaProductos);
-            adapter.actualizarLista(listaProductos);
+        if (listaProductos != null && db != null && adapter != null) {
+            listaProductos.clear();
+            listaProductos.addAll(db.productoDao().obtenerTodos());
+            adapter.notifyDataSetChanged();
             adapter.limpiarSeleccion();
         }
-    }
-    private void filtrarProductos(String texto) {
-        List<Producto> listaFiltrada = new ArrayList<>();
-
-        for (Producto producto : listaProductosCompleta) {
-            if (producto.getNombre().toLowerCase().contains(texto.toLowerCase())) {
-                listaFiltrada.add(producto);
-            }
-        }
-
-        adapter.actualizarLista(listaFiltrada);
     }
 }
