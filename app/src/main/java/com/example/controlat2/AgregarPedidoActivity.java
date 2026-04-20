@@ -1,79 +1,44 @@
 package com.example.controlat2;
 
-import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.app.DatePickerDialog;
+import java.util.Calendar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import java.util.List;
-import java.util.Calendar;
 
 public class AgregarPedidoActivity extends AppCompatActivity {
 
-    private Spinner spClientePedido, spProductoPedido;
+    private Spinner spClientesPedido, spProductosPedido, spEstadoPedido;
     private EditText etCantidadPedido, etFechaEntregaPedido;
     private Button btnGuardarPedido;
-    private AppDatabase db;
 
+    private AppDatabase db;
     private List<Cliente> listaClientes;
     private List<Producto> listaProductos;
+
+    private boolean modoEditar = false;
+    private int idPedido = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_pedido);
 
-        spClientePedido = findViewById(R.id.spClientePedido);
-        spProductoPedido = findViewById(R.id.spProductoPedido);
+        spClientesPedido = findViewById(R.id.spClientesPedido);
+        spProductosPedido = findViewById(R.id.spProductosPedido);
+        spEstadoPedido = findViewById(R.id.spEstadoPedido);
         etCantidadPedido = findViewById(R.id.etCantidadPedido);
         etFechaEntregaPedido = findViewById(R.id.etFechaEntregaPedido);
         btnGuardarPedido = findViewById(R.id.btnGuardarPedido);
 
-        db = Room.databaseBuilder(getApplicationContext(),
-                        AppDatabase.class, "controlat-db")
-                .fallbackToDestructiveMigration()
-                .allowMainThreadQueries()
-                .build();
-
-        cargarClientes();
-        cargarProductos();
-        configurarCalendario();
-
-        btnGuardarPedido.setOnClickListener(v -> guardarPedido());
-    }
-
-    private void cargarClientes() {
-        listaClientes = db.clienteDao().obtenerTodos();
-
-        ArrayAdapter<Cliente> adapterClientes = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_item,
-                listaClientes
-        );
-        adapterClientes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spClientePedido.setAdapter(adapterClientes);
-    }
-
-    private void cargarProductos() {
-        listaProductos = db.productoDao().obtenerTodos();
-
-        ArrayAdapter<Producto> adapterProductos = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_item,
-                listaProductos
-        );
-        adapterProductos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spProductoPedido.setAdapter(adapterProductos);
-    }
-
-    private void configurarCalendario() {
         etFechaEntregaPedido.setFocusable(false);
         etFechaEntregaPedido.setClickable(true);
 
@@ -97,55 +62,123 @@ public class AgregarPedidoActivity extends AppCompatActivity {
 
             datePickerDialog.show();
         });
+
+        db = Room.databaseBuilder(getApplicationContext(),
+                        AppDatabase.class, "controlat-db")
+                .fallbackToDestructiveMigration()
+                .allowMainThreadQueries()
+                .build();
+
+        listaClientes = db.clienteDao().obtenerTodos();
+        listaProductos = db.productoDao().obtenerTodos();
+
+        ArrayAdapter<Cliente> adapterClientes = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                listaClientes
+        );
+        adapterClientes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spClientesPedido.setAdapter(adapterClientes);
+
+        ArrayAdapter<Producto> adapterProductos = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                listaProductos
+        );
+        adapterProductos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spProductosPedido.setAdapter(adapterProductos);
+
+        String[] estados = {"Pendiente", "Entregado", "Cancelado"};
+        ArrayAdapter<String> adapterEstados = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                estados
+        );
+        adapterEstados.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spEstadoPedido.setAdapter(adapterEstados);
+
+        if (getIntent().getBooleanExtra("modoEditar", false)) {
+            modoEditar = true;
+            idPedido = getIntent().getIntExtra("idPedido", -1);
+
+            String nombreCliente = getIntent().getStringExtra("nombreCliente");
+            String nombreProducto = getIntent().getStringExtra("nombreProducto");
+            int cantidad = getIntent().getIntExtra("cantidad", 1);
+            String estado = getIntent().getStringExtra("estado");
+            String fechaEntrega = getIntent().getStringExtra("fechaEntrega");
+
+            etCantidadPedido.setText(String.valueOf(cantidad));
+            etFechaEntregaPedido.setText(fechaEntrega);
+            btnGuardarPedido.setText("Actualizar pedido");
+
+            if (nombreCliente != null) {
+                for (int i = 0; i < listaClientes.size(); i++) {
+                    if (listaClientes.get(i).getNombre().equals(nombreCliente)) {
+                        spClientesPedido.setSelection(i);
+                        break;
+                    }
+                }
+            }
+
+            if (nombreProducto != null) {
+                for (int i = 0; i < listaProductos.size(); i++) {
+                    if (listaProductos.get(i).getNombre().equals(nombreProducto)) {
+                        spProductosPedido.setSelection(i);
+                        break;
+                    }
+                }
+            }
+
+            if (estado != null) {
+                for (int i = 0; i < estados.length; i++) {
+                    if (estados[i].equals(estado)) {
+                        spEstadoPedido.setSelection(i);
+                        break;
+                    }
+                }
+            }
+        }
+
+        btnGuardarPedido.setOnClickListener(v -> guardarPedido());
     }
 
     private void guardarPedido() {
-        if (listaClientes == null || listaClientes.isEmpty()) {
-            Toast.makeText(this, "No hay clientes registrados", Toast.LENGTH_SHORT).show();
+        if (listaClientes.isEmpty() || listaProductos.isEmpty()) {
+            Toast.makeText(this, "Debe haber clientes y productos registrados", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (listaProductos == null || listaProductos.isEmpty()) {
-            Toast.makeText(this, "No hay productos registrados", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        Cliente clienteSeleccionado = (Cliente) spClientePedido.getSelectedItem();
-        Producto productoSeleccionado = (Producto) spProductoPedido.getSelectedItem();
+        Cliente clienteSeleccionado = (Cliente) spClientesPedido.getSelectedItem();
+        Producto productoSeleccionado = (Producto) spProductosPedido.getSelectedItem();
+        String estadoSeleccionado = spEstadoPedido.getSelectedItem().toString();
 
         String cantidadTexto = etCantidadPedido.getText().toString().trim();
         String fechaEntrega = etFechaEntregaPedido.getText().toString().trim();
 
-        if (clienteSeleccionado == null || productoSeleccionado == null ||
-                TextUtils.isEmpty(cantidadTexto) || TextUtils.isEmpty(fechaEntrega)) {
+        if (cantidadTexto.isEmpty() || fechaEntrega.isEmpty()) {
             Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        int cantidad;
-        try {
-            cantidad = Integer.parseInt(cantidadTexto);
-        } catch (NumberFormatException e) {
-            Toast.makeText(this, "Cantidad inválida", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (cantidad <= 0) {
-            Toast.makeText(this, "La cantidad debe ser mayor a 0", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        int cantidad = Integer.parseInt(cantidadTexto);
 
         Pedido pedido = new Pedido(
                 clienteSeleccionado.getNombre(),
                 productoSeleccionado.getNombre(),
                 cantidad,
                 fechaEntrega,
-                "Pendiente"
+                estadoSeleccionado
         );
 
-        db.pedidoDao().insertar(pedido);
+        if (modoEditar) {
+            pedido.setId(idPedido);
+            db.pedidoDao().actualizar(pedido);
+            Toast.makeText(this, "Pedido actualizado", Toast.LENGTH_SHORT).show();
+        } else {
+            db.pedidoDao().insertar(pedido);
+            Toast.makeText(this, "Pedido guardado", Toast.LENGTH_SHORT).show();
+        }
 
-        Toast.makeText(this, "Pedido guardado", Toast.LENGTH_SHORT).show();
         finish();
     }
 }

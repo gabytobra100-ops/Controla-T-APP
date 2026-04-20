@@ -14,19 +14,21 @@ public interface VentaDao {
     @Insert
     void insertar(Venta venta);
 
-    @Query("SELECT * FROM ventas")
-    List<Venta> obtenerTodas();
-    @Query("SELECT COUNT(*)FROM ventas")
-    int contarVentas();
-    @Query("SELECT SUM (total) FROM ventas")
-    double obtenerIngresosTotales();
-
-    @Query("SELECT * FROM ventas WHERE clienteId = :clienteId")
-    List<Venta> obtenerVentasPorCliente(int clienteId);
-
     @Update
     void actualizar(Venta venta);
 
     @Delete
     void eliminar(Venta venta);
+
+    @Query("SELECT * FROM ventas ORDER BY id DESC")
+    List<Venta> obtenerTodas();
+
+    @Query("SELECT COUNT(*) FROM ventas")
+    int contarVentas();
+
+    @Query("SELECT COALESCE(SUM(total), 0) FROM ventas")
+    double obtenerIngresosTotales();
+
+    @Query("SELECT * FROM ventas WHERE clienteId = :clienteId ORDER BY id DESC")
+    List<Venta> obtenerVentasPorCliente(int clienteId);
 }

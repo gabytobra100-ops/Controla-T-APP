@@ -6,6 +6,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.widget.Toast;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,7 +26,6 @@ public class ClientesActivity extends AppCompatActivity {
     private AppDatabase db;
     private Button btnAgregarCliente, btnEliminarCliente, btnModificarCliente;
     private EditText etBuscarCliente;
-    private Button btnVerHistorial;
 
 
     @Override
@@ -38,7 +39,6 @@ public class ClientesActivity extends AppCompatActivity {
         btnModificarCliente = findViewById(R.id.btnModificarCliente);
         recyclerClientes = findViewById(R.id.recyclerClientes);
         etBuscarCliente = findViewById(R.id.etBuscarCliente);
-        btnVerHistorial = findViewById(R.id.btnVerHistorial);
 
         recyclerClientes.setLayoutManager(new LinearLayoutManager(this));
 
@@ -48,10 +48,17 @@ public class ClientesActivity extends AppCompatActivity {
                 .allowMainThreadQueries()
                 .build();
 
-        adapter = new ClienteAdapter(listaClientes);
-        recyclerClientes.setAdapter(adapter);
         listaClientes = db.clienteDao().obtenerTodos();
         listaClientesCompleta = new ArrayList<>(listaClientes);
+
+        adapter = new ClienteAdapter(listaClientes, cliente -> {
+            Intent intent = new Intent(ClientesActivity.this, HistorialClienteActivity.class);
+            intent.putExtra("clienteId", cliente.getId());
+            intent.putExtra("nombreCliente", cliente.getNombre());
+            startActivity(intent);
+        });
+
+        recyclerClientes.setAdapter(adapter);
 
         etBuscarCliente.addTextChangedListener(new TextWatcher() {
             @Override
@@ -97,18 +104,6 @@ public class ClientesActivity extends AppCompatActivity {
                 intent.putExtra("telefono", clienteSeleccionado.getTelefono());
                 intent.putExtra("correo", clienteSeleccionado.getCorreo());
                 intent.putExtra("notas", clienteSeleccionado.getNotas());
-                startActivity(intent);
-            }
-        });
-
-        btnVerHistorial.setOnClickListener(v -> {
-            Cliente clienteSeleccionado = adapter.getClienteSeleccionado();
-
-            if (clienteSeleccionado != null) {
-                Intent intent = new Intent(ClientesActivity.this, VentasClienteActivity.class);
-                intent.putExtra("clienteId", clienteSeleccionado.getId());
-                intent.putExtra("nombreCliente", clienteSeleccionado.getNombre());
-
                 startActivity(intent);
             }
         });

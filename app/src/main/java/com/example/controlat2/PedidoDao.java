@@ -14,13 +14,12 @@ public interface PedidoDao {
     @Insert
     void insertar(Pedido pedido);
 
-    @Query("SELECT * FROM pedidos ORDER BY id DESC")
-    List<Pedido> obtenerTodos();
-
-
     @Update
     void actualizar(Pedido pedido);
 
     @Delete
     void eliminar(Pedido pedido);
+
+    @Query("SELECT * FROM pedidos ORDER BY id DESC")
+    List<Pedido> obtenerTodos();
 }

@@ -1,12 +1,13 @@
 package com.example.controlat2;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -14,25 +15,47 @@ import java.util.List;
 public class PedidoAdapter extends RecyclerView.Adapter<PedidoAdapter.ViewHolder> {
 
     private List<Pedido> listaPedidos;
-    private AppDatabase db;
+    private int posicionSeleccionada = -1;
 
-    public PedidoAdapter(List<Pedido> listaPedidos, AppDatabase db) {
+    public PedidoAdapter(List<Pedido> listaPedidos) {
         this.listaPedidos = listaPedidos;
-        this.db = db;
+    }
+
+    public Pedido getPedidoSeleccionado() {
+        if (posicionSeleccionada >= 0 && posicionSeleccionada < listaPedidos.size()) {
+            return listaPedidos.get(posicionSeleccionada);
+        }
+        return null;
+    }
+
+    public void limpiarSeleccion() {
+        int posicionAnterior = posicionSeleccionada;
+        posicionSeleccionada = -1;
+
+        if (posicionAnterior != -1) {
+            notifyItemChanged(posicionAnterior);
+        }
+    }
+
+    public void actualizarLista(List<Pedido> nuevaLista) {
+        this.listaPedidos = nuevaLista;
+        posicionSeleccionada = -1;
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        TextView txtCliente, txtProducto, txtCantidad, txtFecha, txtEstado;
+        CardView cardPedido;
+        TextView txtPedidoCliente, txtPedidoProducto, txtPedidoCantidad, txtPedidoFecha, txtPedidoEstado;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            txtCliente = itemView.findViewById(R.id.txtPedidoCliente);
-            txtProducto = itemView.findViewById(R.id.txtPedidoProducto);
-            txtCantidad = itemView.findViewById(R.id.txtPedidoCantidad);
-            txtFecha = itemView.findViewById(R.id.txtPedidoFecha);
-            txtEstado = itemView.findViewById(R.id.txtPedidoEstado);
+            cardPedido = (CardView) itemView;
+            txtPedidoCliente = itemView.findViewById(R.id.txtPedidoCliente);
+            txtPedidoProducto = itemView.findViewById(R.id.txtPedidoProducto);
+            txtPedidoCantidad = itemView.findViewById(R.id.txtPedidoCantidad);
+            txtPedidoFecha = itemView.findViewById(R.id.txtPedidoFecha);
+            txtPedidoEstado = itemView.findViewById(R.id.txtPedidoEstado);
         }
     }
 
@@ -48,72 +71,55 @@ public class PedidoAdapter extends RecyclerView.Adapter<PedidoAdapter.ViewHolder
     public void onBindViewHolder(@NonNull PedidoAdapter.ViewHolder holder, int position) {
         Pedido pedido = listaPedidos.get(position);
 
-        holder.txtCliente.setText("Cliente: " + pedido.getNombreCliente());
-        holder.txtProducto.setText("Producto: " + pedido.getNombreProducto());
-        holder.txtCantidad.setText("Cantidad: " + pedido.getCantidad());
-        holder.txtFecha.setText("Entrega: " + pedido.getFechaEntrega());
+        holder.txtPedidoCliente.setText("Cliente: " + pedido.getNombreCliente());
+        holder.txtPedidoProducto.setText("Producto: " + pedido.getNombreProducto());
+        holder.txtPedidoCantidad.setText("Cantidad: " + pedido.getCantidad());
+        holder.txtPedidoFecha.setText("Entrega: " + pedido.getFechaEntrega());
+        holder.txtPedidoEstado.setText("Estado: " + pedido.getEstado());
 
-        if (pedido.getEstado().equals("Entregado")) {
-            holder.txtEstado.setText("Estado: Entregado");
-            holder.txtEstado.setTextColor(0xFF4CAF50);
+        // COLOR DEL ESTADO
+        String estado = pedido.getEstado() != null ? pedido.getEstado() : "";
+
+        if (estado.equalsIgnoreCase("Pendiente")) {
+            holder.txtPedidoEstado.setTextColor(Color.parseColor("#FF9800"));
+        } else if (estado.equalsIgnoreCase("Entregado")) {
+            holder.txtPedidoEstado.setTextColor(Color.parseColor("#4CAF50"));
         } else {
-            holder.txtEstado.setText("Estado: Pendiente");
-            holder.txtEstado.setTextColor(0xFFFF9800);
+            holder.txtPedidoEstado.setTextColor(Color.parseColor("#F44336"));
+        }
+
+        // SELECCIÓN VISUAL
+        if (position == posicionSeleccionada) {
+            holder.cardPedido.setCardBackgroundColor(Color.parseColor("#2A3F66"));
+        } else {
+            holder.cardPedido.setCardBackgroundColor(Color.parseColor("#1B263B"));
         }
 
         holder.itemView.setOnClickListener(v -> {
-            if (pedido.getEstado().equals("Pendiente")) {
+            int posicionAnterior = posicionSeleccionada;
+            int posicionActual = holder.getAdapterPosition();
 
-                Producto producto = db.productoDao().obtenerPorNombre(pedido.getNombreProducto());
+            if (posicionActual == RecyclerView.NO_POSITION) {
+                return;
+            }
 
-                if (producto == null) {
-                    Toast.makeText(v.getContext(), "No se encontró el producto", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (producto.getStock() < pedido.getCantidad()) {
-                    Toast.makeText(v.getContext(), "No hay suficiente stock para convertir el pedido", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                int clienteId = 0;
-                Cliente cliente = db.clienteDao().obtenerPorNombre(pedido.getNombreCliente());
-                if (cliente != null) {
-                    clienteId = cliente.getId();
-                }
-
-                double total = producto.getPrecio() * pedido.getCantidad();
-
-                Venta venta = new Venta(
-                        clienteId,
-                        pedido.getNombreCliente(),
-                        pedido.getNombreProducto(),
-                        pedido.getCantidad(),
-                        total,
-                        pedido.getFechaEntrega()
-                );
-
-                db.ventaDao().insertar(venta);
-
-                producto.setStock(producto.getStock() - pedido.getCantidad());
-                db.productoDao().actualizar(producto);
-
-                pedido.setEstado("Entregado");
-                db.pedidoDao().actualizar(pedido);
-
-                notifyItemChanged(position);
-
-                Toast.makeText(v.getContext(), "Pedido convertido en venta", Toast.LENGTH_SHORT).show();
-
+            if (posicionActual == posicionSeleccionada) {
+                posicionSeleccionada = -1;
             } else {
-                Toast.makeText(v.getContext(), "Este pedido ya fue convertido", Toast.LENGTH_SHORT).show();
+                posicionSeleccionada = posicionActual;
+            }
+
+            if (posicionAnterior != -1) {
+                notifyItemChanged(posicionAnterior);
+            }
+            if (posicionSeleccionada != -1) {
+                notifyItemChanged(posicionSeleccionada);
             }
         });
     }
 
-
     @Override
     public int getItemCount() {
-        return listaPedidos.size();
+        return listaPedidos != null ? listaPedidos.size() : 0;
     }
 }

@@ -14,9 +14,8 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- PRODUCTO -->
         <TextView
-            android:id="@+id/txtNombreProducto"
+            android:id="@+id/txtProducto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Producto"
@@ -24,17 +23,6 @@
             android:textStyle="bold"
             android:textSize="18sp" />
 
-        <!-- CLIENTE -->
-        <TextView
-            android:id="@+id/txtNombreCliente"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cliente: Público general"
-            android:textColor="#B0BEC5"
-            android:textSize="14sp"
-            android:layout_marginTop="6dp" />
-
-        <!-- CANTIDAD -->
         <TextView
             android:id="@+id/txtCantidad"
             android:layout_width="wrap_content"
@@ -42,20 +30,18 @@
             android:text="Cantidad: 1"
             android:textColor="#B0BEC5"
             android:textSize="14sp"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="6dp" />
 
-        <!-- TOTAL -->
         <TextView
             android:id="@+id/txtTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Total: $100"
             android:textColor="#00FF66"
-            android:textSize="15sp"
             android:textStyle="bold"
+            android:textSize="15sp"
             android:layout_marginTop="6dp" />
 
-        <!-- FECHA -->
         <TextView
             android:id="@+id/txtFecha"
             android:layout_width="wrap_content"

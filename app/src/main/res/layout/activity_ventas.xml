@@ -47,6 +47,15 @@
             android:backgroundTint="#1B263B"
             android:layout_marginStart="12dp" />
 
+        <Button
+            android:id="@+id/btnModificarVenta"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="Modificar"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#1B263B"
+            android:layout_marginStart="12dp"/>
+
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

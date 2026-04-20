@@ -82,7 +82,7 @@ public class ReportesActivity extends AppCompatActivity {
             }
         }
 
-        String clienteFrecuente = "Sin datos";
+        String clienteFrecuente = "-";
         int maxCompras = 0;
 
         for (Map.Entry<String, Integer> entry : comprasPorCliente.entrySet()) {
@@ -92,7 +92,7 @@ public class ReportesActivity extends AppCompatActivity {
             }
         }
 
-        String productoMasVendido = "Sin datos";
+        String productoMasVendido = "-";
         int maxVentas = 0;
 
         for (Map.Entry<String, Integer> entry : ventasPorProducto.entrySet()) {
@@ -102,11 +102,12 @@ public class ReportesActivity extends AppCompatActivity {
             }
         }
 
-        txtTotalProductos.setText("Total de productos: " + totalProductos);
-        txtTotalVentas.setText("Total de ventas: " + totalVentas);
-        txtIngresosTotales.setText("Ingresos totales: $" + String.format("%.2f", ingresos));
-        txtProductosSinStock.setText("Productos sin stock: " + sinStock);
-        txtClienteFrecuente.setText("Cliente frecuente: " + clienteFrecuente);
-        txtProductoMasVendido.setText("Producto más vendido: " + productoMasVendido);
+        txtTotalProductos.setText(String.valueOf(totalProductos));
+        txtTotalVentas.setText(String.valueOf(totalVentas));
+        txtIngresosTotales.setText("$" + String.format("%.2f", ingresos));
+        txtProductosSinStock.setText(String.valueOf(sinStock));
+
+        txtClienteFrecuente.setText(clienteFrecuente);
+        txtProductoMasVendido.setText(productoMasVendido);
     }
 }

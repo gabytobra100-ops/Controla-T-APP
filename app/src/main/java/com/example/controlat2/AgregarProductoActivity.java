@@ -85,19 +85,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
         });
     }
 
-    private int obtenerImagenPorNombre(String nombre) {
-        String nombreLower = nombre.toLowerCase();
-
-        if (nombreLower.contains("invictus")) {
-            return R.drawable.fragancias;
-        } else if (nombreLower.contains("sauvage")) {
-            return R.drawable.fragancias;
-        } else if (nombreLower.contains("212")) {
-            return R.drawable.fragancias;
-        } else if (nombreLower.contains("acqua")) {
-            return R.drawable.fragancias;
-        }
-
-        return R.drawable.ic_launcher_foreground;
+    private int obtenerImagenPorNombre(String nombre){
+        return R.drawable.fragancias;
     }
 }

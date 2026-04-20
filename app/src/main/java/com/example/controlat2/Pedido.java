@@ -15,6 +15,7 @@ public class Pedido {
     private String fechaEntrega;
     private String estado; // Pendiente o Entregado
 
+
     public Pedido(String nombreCliente, String nombreProducto, int cantidad, String fechaEntrega, String estado) {
         this.nombreCliente = nombreCliente;
         this.nombreProducto = nombreProducto;
