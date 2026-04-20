@@ -32,6 +32,8 @@ public class AgregarVentaActivity extends AppCompatActivity {
     private int idVenta = -1;
     private int clienteId = 0;
     private String nombreCliente = "";
+    private Spinner spClientes;
+    private List<Cliente> listaClientes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +116,21 @@ public class AgregarVentaActivity extends AppCompatActivity {
         }
 
         btnGuardarVenta.setOnClickListener(v -> guardarVenta());
+
+        spClientes = findViewById(R.id.spClientes);
+
+        listaClientes = db.clienteDao().obtenerTodos();
+
+//  Agregamos "Público general" manualmente
+        listaClientes.add(0, new Cliente("Público general", "", "", ""));
+
+        ArrayAdapter<Cliente> adapterClientes = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                listaClientes
+        );
+        adapterClientes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spClientes.setAdapter(adapterClientes);
     }
 
     private void configurarCalendario() {
@@ -150,6 +167,16 @@ public class AgregarVentaActivity extends AppCompatActivity {
 
         String cantidadTexto = etCantidadVenta.getText().toString().trim();
         String fecha = etFechaVenta.getText().toString().trim();
+
+        Cliente clienteSeleccionado = (Cliente) spClientes.getSelectedItem();
+
+        if (clienteSeleccionado.getNombre().equals("Público general")) {
+            clienteId = 0;
+            nombreCliente = "Público general";
+        } else {
+            clienteId = clienteSeleccionado.getId();
+            nombreCliente = clienteSeleccionado.getNombre();
+        }
 
         if (cantidadTexto.isEmpty() || fecha.isEmpty()) {
             Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
