@@ -41,15 +41,6 @@ public class ProductosActivity extends AppCompatActivity {
 
         listaProductos = db.productoDao().obtenerTodos();
 
-        if (listaProductos.isEmpty()) {
-            db.productoDao().insertar(new Producto("212 VIP Men Black", "Fragancia 60 ml", 100.0, 4, R.drawable.fragancias));
-            db.productoDao().insertar(new Producto("Invictus", "Fragancia 100 ml", 150.0, 2, R.drawable.fragancias));
-            db.productoDao().insertar(new Producto("Sauvage", "Fragancia 60 ml", 180.0, 3, R.drawable.fragancias));
-            db.productoDao().insertar(new Producto("Acqua De Gio Men", "Fragancia 60 ml", 100.0, 0, R.drawable.fragancias));
-
-            listaProductos = db.productoDao().obtenerTodos();
-        }
-
         adapter = new ProductoAdapter(listaProductos, db);
         recyclerProductos.setAdapter(adapter);
 
